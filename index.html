@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>COPYPASTA</title>
+</head>
+<body>
+    Quantity of charachters (won't be exact for over 10,000 charachters): <input type="text" id="count">
+    <button id="run">COPY!</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button id="hidden" onclick="document.getElementById('copy').hidden = !document.getElementById('copy').hidden">hide text box (increased performance, recomended)</button>
+    <div id="copy" style="overflow: scroll; border: 1px outset grey; border-radius: 10px; text-rendering: optimizeSpeed; width: 100px; height: 100px;"></div>
+    <script>
+        a = ""
+        document.getElementById("run").onclick = () => {
+            let arr = []
+            console.log((new Date).getTime())
+            for(let i = 0; i < parseInt(document.getElementById("count").value); i++) {
+                arr.push(~~(Math.random()*5000))
+            }
+            console.log((new Date).getTime())
+            if(arr.length > 10000) {
+                a = convert(arr)
+            }
+            else {
+                a = String.fromCharCode(...arr)
+            }
+            console.log((new Date).getTime())
+            navigator.clipboard.writeText(a)
+            console.log((new Date).getTime())
+            document.getElementById("copy").innerHTML=a
+            console.log((new Date).getTime())
+        }
+        function convert(arr) {
+            if(arr.length < 1000){
+                return String.fromCharCode(...arr)
+            }
+            else{
+                let str = String.fromCharCode(...(arr.slice(0, 1000)))
+                arr.splice(0, 1000)
+                let out = convert(arr)
+                return str+out
+            }
+        }
+    </script>
+</body>
+</html>
